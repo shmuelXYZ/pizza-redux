@@ -56,5 +56,10 @@ export const getTotalPrice = (state) =>
 
 export const getCart = (state) => state.cart.cart;
 
-export const getQuantityById = (id) => (state) =>
-  state.cart.cart.find((item) => (item.pizzaID === id ? item.quantety : 0));
+// used to determine if the item is already in the cart
+/* 
+   2 functions the first get id and return another function that get state and use
+   the id fromthe outer function to find items exist in the cart or not.
+*/
+export const getCurrentQuantityById = (id) => (state) =>
+  state.cart.cart.find((item) => (item.pizzaID === id ? item.quantity : 0));
