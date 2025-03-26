@@ -4,7 +4,7 @@ const initialState = {
   cart: [],
   //   cart: [
   // {
-  //   pizzaID: 12,
+  //   pizzaId: 12,
   //   quantety: 2,
   //   unitPrice: 16,
   //   totalPrice: 32,
@@ -21,17 +21,18 @@ const cartSlice = createSlice({
       state.cart.push(action.payload);
     },
     deleteItem(state, action) {
-      state.cart = state.cart.filter((item) => item.pizzaID !== action.payload);
+      state.cart = state.cart.filter((item) => item.pizzaId !== action.payload);
     },
     increaseItemQuantity(state, action) {
-      const item = state.cart.find((item) => item.pizzaID === action.payload);
-      item.quantety++;
-      item.totalPrice = item.quantety * item.unitPrice;
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
+      item.quantity++;
+      item.totalPrice = item.quantity * item.unitPrice;
     },
     dicreaseItemQuantity(state, action) {
-      const item = state.cart.find((item) => item.pizzaID === action.payload);
-      item.quantety--;
-      item.totalPrice = item.quantety * item.unitPrice;
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
+      item.quantity--;
+      item.totalPrice = item.quantity * item.unitPrice;
+      if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
       state.cart = [];
@@ -61,5 +62,11 @@ export const getCart = (state) => state.cart.cart;
    2 functions the first get id and return another function that get state and use
    the id fromthe outer function to find items exist in the cart or not.
 */
+// export const getCurrentQuantityById = (id) => (state) =>
+//   state.cart.cart.find((item) => (item.pizzaId === id)?.quantity ?? 0);
+
 export const getCurrentQuantityById = (id) => (state) =>
-  state.cart.cart.find((item) => (item.pizzaID === id ? item.quantity : 0));
+  state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+
+// export const getCurrentQuantityById = (id) => (state) =>
+//   state.cart.cart.find((item) => (item.pizzaId === id ? item.quantity : 0));
